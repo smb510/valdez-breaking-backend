@@ -29,7 +29,6 @@ object Story {
       ).toList
   }
 
-
   val mostRecentUnbroadcast = SQL("SELECT * FROM stories WHERE isBroadcast=FALSE ORDER BY importDate LIMIT 1")
 
   def getMostRecentUnbroadcast: Story = DB.withConnection {
