@@ -42,7 +42,7 @@ object Story {
     DB.withConnection { implicit connection =>
       SQL( """insert
       into stories
-      values (NULL, {eventType}, {eventBody}, {importDate}, {isBroadcast})""").on(
+      values (DEFAULT, {eventType}, {eventBody}, {importDate}, {isBroadcast})""").on(
           "eventType" -> story.eventType,
           "eventBody" -> story.eventBody,
           "importDate" -> story.importDate,
