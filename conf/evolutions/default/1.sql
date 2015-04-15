@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-CREATE TABLE STORIES (
+CREATE TABLE story (
     id serial PRIMARY KEY,
     eventType varchar(255) NOT NULL,
     eventBody varchar(2000) NOT NULL UNIQUE,
