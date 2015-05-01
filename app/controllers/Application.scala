@@ -1,7 +1,7 @@
 package controllers
 
 
-import java.util.Calendar
+import java.util.{Date, Calendar}
 
 import org.h2.engine.Database
 import play.api._
@@ -48,7 +48,6 @@ object Application extends Controller {
   }
 
 
-
   def parseLine(rawLine: String) : Option[Story]  = {
     val startStrongIndex = rawLine.indexOf("<strong>")
     val endStrongIndex = rawLine.indexOf("</strong>")
@@ -76,6 +75,22 @@ object Application extends Controller {
 
   def getAllStories = Action {
     val stories = Story.getAll
+    val maxLastImportDate: Long = stories.map { story =>
+      story.importDate.getTime
+    }.max
+
+    var scraped: Boolean = false
+
+   val now: Long = Calendar.getInstance().getTimeInMillis
+    if ((now - maxLastImportDate) >= 1000 * 60 * 60 *24 * 7) {
+      scrape
+      scraped = true
+    }
+
+    if (scraped) {
+      Logger.debug("Scraped messages!!")
+    }
+
     implicit val storyWrites = new Writes[Story] {
       override def writes(story: Story) = Json.obj(
       "id" -> story.id,
