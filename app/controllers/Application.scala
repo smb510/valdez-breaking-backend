@@ -94,7 +94,7 @@ object Application extends Controller {
     implicit val storyWrites = new Writes[Story] {
       override def writes(story: Story) = Json.obj(
       "id" -> story.id,
-      "eventType" -> story.eventType,
+      "eventType" -> story.eventType.replace(':', ' '),
       "eventBody" -> story.eventBody,
       "importDate" -> story.importDate,
       "isBroadcast" -> story.isBroadcast
