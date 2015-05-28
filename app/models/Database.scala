@@ -33,7 +33,7 @@ object Story {
 
   def getAllSince(last: Long): List[Story] = DB.withConnection {
     implicit  conn =>
-      val sqlAfter: SqlQuery = SQL("SELECT * FROM stories WHERE id > $last ORDER BY importDate DESC")
+      val sqlAfter: SqlQuery = SQL("SELECT * FROM stories WHERE id > %s ORDER BY importDate DESC", last)
       sqlAfter().map(row =>
         Story(row[Long]("id"), row[String]("eventType"), row[String]("eventBody"), row[Date]("importDate"), row[Boolean]("isBroadcast"))
       ).toList
