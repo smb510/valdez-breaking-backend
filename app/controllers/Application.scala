@@ -73,8 +73,8 @@ object Application extends Controller {
 
   }
 
-  def getAllStories(last: Long) = Action {
-    val stories = Story.getAllSince(last)
+  def getAllStories = Action {
+    val stories = Story.getAllSince(100)
 
     val maxLastImportDate: Long = stories.map { story =>
       story.importDate.getTime
