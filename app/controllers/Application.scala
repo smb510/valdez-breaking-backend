@@ -22,6 +22,7 @@ object Application extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
+
   def hi = Action {
     Ok("hi")
   }
@@ -74,7 +75,7 @@ object Application extends Controller {
   }
 
   def getAllStories = Action {
-    val stories = Story.getAllSince(100)
+    val stories = Story.getAll
 
     val maxLastImportDate: Long = stories.map { story =>
       story.importDate.getTime
