@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.index
 GET     /hi                         controllers.Application.hi
 GET     /scrape                     controllers.Application.scrape
-GET     /stories                    controllers.Applicaton.getAllStories(last: Long = -1)
+GET     /stories                    controllers.Application.getAllStories(last: Long = -1)
 GET     /stories/:last              controllers.Application.getAllStories(last: Long)
 
 # Map static resources from the /public folder to the /assets URL path
