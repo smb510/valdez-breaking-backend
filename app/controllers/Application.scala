@@ -74,7 +74,8 @@ object Application extends Controller {
 
   }
 
-  def getAllStories = Action {
+  def getAllStories(last: Long) = Action {
+    Logger.debug("Last: {last}")
     val stories = Story.getAll
 
     val maxLastImportDate: Long = stories.map { story =>
