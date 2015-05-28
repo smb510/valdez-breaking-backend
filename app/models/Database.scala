@@ -21,10 +21,20 @@ object Story {
 
   val sql: SqlQuery = SQL("SELECT * FROM stories ORDER BY importDate DESC")
 
+  val sqlAfter: SqlQuery = SQL("SELECT * FROM stories ")
+
 
   def getAll: List[Story] = DB.withConnection {
     implicit conn =>
       sql().map(row =>
+        Story(row[Long]("id"), row[String]("eventType"), row[String]("eventBody"), row[Date]("importDate"), row[Boolean]("isBroadcast"))
+      ).toList
+  }
+
+  def getAllSince(last: Long): List[Story] = DB.withConnection {
+    implicit  conn =>
+      val sqlAfter: SqlQuery = SQL("SELECT * FROM stories WHERE id > {last} ORDER BY importDate DESC")
+      sqlAfter().map(row =>
         Story(row[Long]("id"), row[String]("eventType"), row[String]("eventBody"), row[Date]("importDate"), row[Boolean]("isBroadcast"))
       ).toList
   }

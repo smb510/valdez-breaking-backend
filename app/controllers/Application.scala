@@ -73,8 +73,9 @@ object Application extends Controller {
 
   }
 
-  def getAllStories = Action {
-    val stories = Story.getAll
+  def getAllStories(last: Long) = Action {
+    val stories = Story.getAllSince(last)
+
     val maxLastImportDate: Long = stories.map { story =>
       story.importDate.getTime
     }.max
@@ -82,7 +83,7 @@ object Application extends Controller {
     var scraped: Boolean = false
 
    val now: Long = Calendar.getInstance().getTimeInMillis
-    if ((now - maxLastImportDate) >= 1000 * 60 * 60 *24 * 7) {
+    if ((now - maxLastImportDate) >= 1000 * 60 * 60 * 24 * 7) {
       scrape
       scraped = true
     }
