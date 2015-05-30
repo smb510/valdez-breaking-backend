@@ -22,6 +22,10 @@ object Application extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
+  def download = Action {
+    Ok(views.html.download())
+  }
+
 
   def hi = Action {
     Ok("hi")
