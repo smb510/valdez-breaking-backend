@@ -86,33 +86,37 @@ object Application extends Controller {
   def getAllStories(last: Long) = Action {
     Logger.debug("Last: $last")
     val stories = Story.getAllSince(last)
+    if (stories.nonEmpty) {
 
-    val maxLastImportDate: Long = stories.map { story =>
-      story.importDate.getTime
-    }.max
+      val maxLastImportDate: Long = stories.map { story =>
+        story.importDate.getTime
+      }.max
 
-    var scraped: Boolean = false
+      var scraped: Boolean = false
 
-   val now: Long = Calendar.getInstance().getTimeInMillis
-    if ((now - maxLastImportDate) >= 1000 * 60 * 60 * 24 * 7) {
-      scrape
-      scraped = true
+      val now: Long = Calendar.getInstance().getTimeInMillis
+      if ((now - maxLastImportDate) >= 1000 * 60 * 60 * 24 * 7) {
+        scrape
+        scraped = true
+      }
+
+      if (scraped) {
+        Logger.debug("Scraped messages!!")
+      }
+
+      implicit val storyWrites = new Writes[Story] {
+        override def writes(story: Story) = Json.obj(
+          "id" -> story.id,
+          "eventType" -> story.eventType.replace(':', ' '),
+          "eventBody" -> story.eventBody,
+          "importDate" -> story.importDate,
+          "isBroadcast" -> story.isBroadcast
+        )
+      }
+      Ok(Json.toJson(stories))
+    } else {
+      Ok(Json.arr())
     }
-
-    if (scraped) {
-      Logger.debug("Scraped messages!!")
-    }
-
-    implicit val storyWrites = new Writes[Story] {
-      override def writes(story: Story) = Json.obj(
-      "id" -> story.id,
-      "eventType" -> story.eventType.replace(':', ' '),
-      "eventBody" -> story.eventBody,
-      "importDate" -> story.importDate,
-      "isBroadcast" -> story.isBroadcast
-      )
-    }
-    Ok(Json.toJson(stories))
   }
 
 
