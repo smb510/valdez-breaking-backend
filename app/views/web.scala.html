@@ -1,0 +1,25 @@
+@(stories: List[Story])
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Here is the very latest from Valdez, AK*</h1>
+<h6>Note: the very latest here means content could be up to a week old. It only refreshes once a week!</h6>
+
+<ul>
+    @for(story <- stories) {
+        <li>
+            <div>
+                <h4>@story.eventType</h4>
+                <p>@story.eventBody</p>
+            </div>
+        </li>
+    }
+</ul>
+
+</body>
+</html>
