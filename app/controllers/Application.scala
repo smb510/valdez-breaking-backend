@@ -31,6 +31,11 @@ object Application extends Controller {
     Ok("hi")
   }
 
+  def web = Action {
+    val stories = Story.getAllSince(-1)
+    Ok(views.html.web(stories))
+  }
+
   def scrape = Action.async {
 
     val simpleFuture : Future[Array[Option[Story]]]  = WS.url("http://kvakradio.com/pages/12542342.php").get().map { response =>
