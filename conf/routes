@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                           controllers.Application.web
 GET     /hi                         controllers.Application.hi
 GET     /scrape                     controllers.Application.scrape
 GET     /stories                    controllers.Application.getAllStories(last: Long ?= -1)
